@@ -101,7 +101,7 @@ fp_t fp_create_from_double(double double_value){
     }
 
     if(double_value > 1.0){
-        ERR("Value must not be greater than 1.0");
+        ERR("Value must not be greater than 1.0: " << double_value);
     }
 
     fp_t num;
