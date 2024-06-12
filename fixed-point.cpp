@@ -59,8 +59,16 @@ pair<uint32_t, uint32_t> ui32_div(uint32_t num0, uint32_t num1){
 
 ////// fixed point
 
+// TODO delete
+// not needed anymore
 fp_t fp_create(){
     return {};
+}
+
+fp_t fp_create_arbitrary(size_t idx, uint32_t value){
+    fp_t num;
+    num.value.at(idx) = value;
+    return num;
 }
 
 fp_t fp_create_from_double(double double_value){

@@ -168,5 +168,14 @@ int main(){
         cout << "a < b: " << fp_lt_fp(a, b) << endl;
     }
 
+    {
+        cout << endl;
+
+        fp_t a = fp_create_arbitrary(0, 5);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+    }
+
     return 0;
 }
