@@ -143,5 +143,14 @@ int main(){
         cout << endl;
     }
 
+    {
+        cout << endl;
+
+        fp_t a;
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+    }
+
     return 0;
 }

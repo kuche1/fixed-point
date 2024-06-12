@@ -219,7 +219,7 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
                 auto [ovf2, val2] = ui32_add( result.value.at(part_offset) , val );
                 ASSERT(ovf2 == 0); // TODO murzi me da go opravq
                 result.value.at(part_offset) = val2;
-                cout << "DBG: settings offset " << part_offset << " to " << val2 << endl;
+                // cout << "DBG: settings offset " << part_offset << " to " << val2 << endl;
             }
 
             if(ovf){
@@ -232,7 +232,7 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
                     auto [ovf2, val2] = ui32_add( result.value.at(part_offset - 1) , ovf );
                     ASSERT(ovf2 == 0); // TODO murzi me da go opravq
                     result.value.at(part_offset - 1) = val2;
-                    cout << "DBG: settings offset-1= " << part_offset-1 << " to " << val2 << endl;
+                    // cout << "DBG: settings offset-1= " << part_offset-1 << " to " << val2 << endl;
                 }
 
             }
