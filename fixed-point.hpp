@@ -26,3 +26,5 @@ fp_t fp_add_fp(const fp_t & num0, const fp_t & num1);
 fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1);
 
 fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1);
+
+bool fp_lt_fp(const fp_t & num0, const fp_t & num1);

@@ -152,5 +152,21 @@ int main(){
         cout << endl;
     }
 
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.85);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        fp_t b = fp_create_from_double(0.7214);
+        cout << "b:";
+        fp_print(b);
+        cout << endl;
+
+        cout << "a < b: " << fp_lt_fp(a, b) << endl;
+    }
+
     return 0;
 }

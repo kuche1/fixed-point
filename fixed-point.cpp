@@ -243,3 +243,18 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
 
     return result;
 }
+
+bool fp_lt_fp(const fp_t & num0, const fp_t & num1){
+
+    for(size_t idx=0; idx<FP_VALUE_LEN; ++idx){
+        uint32_t part0 = num0.value.at(idx);
+        uint32_t part1 = num1.value.at(idx);
+        if(part0 < part1){
+            return true;
+        }else if(part0 > part1){
+            return false;
+        }
+    }
+
+    return false; // equal
+}
