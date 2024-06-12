@@ -174,7 +174,7 @@ void fp_left_shift_by_1(fp_t & num){
 
 }
 
-fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){
+fp_t fp_add_fp(const fp_t & num0, const fp_t & num1, fp_saturation_action_t saturation_action){
 
     fp_t result = num0;
     const fp_t & to_add = num1;
@@ -198,7 +198,16 @@ fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){
     }
 
     if(overflow != 0){
-        ERR("result of addition is >= 1.0");
+        switch(saturation_action){
+            case FP_SATURATION_CRASH:
+                ERR("saturation");
+                break;
+            case FP_SATURATION_NO_CRASH:
+                return fp_create_from_double(1.0); // TODO this could be sped up if we create such an object beforehand
+                break;
+            default:
+                UNREACHABLE();
+        }
     }
 
     return result;
