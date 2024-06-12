@@ -1,4 +1,8 @@
 
+// TODO
+//
+// add tests for all functions
+
 #include "fixed-point.hpp"
 
 #include <cstdint>
@@ -74,14 +78,6 @@ int main(){
     //     auto [c_big, c_smo] = ui32_div(a, b);
     //     cout << "c_big:" << c_big << " c_smo:" << c_smo << endl;
     // }
-
-    {
-        cout << endl;
-        fp_t a = fp_create_from_double(1.0);
-        cout << "a:";
-        fp_print(a);
-        cout << endl;
-    }
 
     {
         cout << endl;
@@ -172,15 +168,6 @@ int main(){
     {
         cout << endl;
 
-        fp_t a = fp_create_arbitrary(0, 5);
-        cout << "a:";
-        fp_print(a);
-        cout << endl;
-    }
-
-    {
-        cout << endl;
-
         fp_t a = fp_create_from_double(0.4);
         cout << "a:";
         fp_print(a);
@@ -206,6 +193,21 @@ int main(){
         fp_print(a);
         cout << endl;
 
+    }
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(1.0);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        for(uint32_t part : a.value){
+            if( (~part) != 0){
+                return 1;
+            }
+        }
     }
 
     return 0;

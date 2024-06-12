@@ -11,10 +11,6 @@ typedef struct{
     array<uint32_t, FP_VALUE_LEN> value = {0};
 } fp_t;
 
-fp_t fp_create();
-
-fp_t fp_create_arbitrary(size_t idx, uint32_t value);
-
 fp_t fp_create_from_double(double double_value);
 
 void fp_print(const fp_t & num);

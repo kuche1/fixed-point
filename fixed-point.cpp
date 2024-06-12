@@ -80,19 +80,6 @@ pair<uint32_t, uint32_t> ui32_div(uint32_t num0, uint32_t num1){
 
 ////// fixed point
 
-// TODO delete
-// not needed anymore
-fp_t fp_create(){
-    return {};
-}
-
-// TODO i'm starting to think that this is also not very useful
-fp_t fp_create_arbitrary(size_t idx, uint32_t value){
-    fp_t num;
-    num.value.at(idx) = value;
-    return num;
-}
-
 fp_t fp_create_from_double(double double_value){
 
     if(double_value < 0.0){
@@ -103,7 +90,7 @@ fp_t fp_create_from_double(double double_value){
         ERR("Value must not be greater than 1.0");
     }
 
-    fp_t num = fp_create();
+    fp_t num;
     size_t bit_idx = 0;
 
     while(true){
@@ -143,7 +130,7 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value){
 
     while(idx >= 8 * sizeof(num.value[0])){
         part_idx += 1;
-        idx -= 8;
+        idx -= 8 * sizeof(num.value[0]);
     }
 
     if(part_idx >= num.value.size()){
@@ -248,7 +235,7 @@ fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1){
 
 fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
 
-    fp_t result = fp_create();
+    fp_t result;
 
     for(ssize_t part0_idx=FP_VALUE_LEN-1; part0_idx>=0; --part0_idx){
         uint32_t part0 = num0.value.at(part0_idx);
