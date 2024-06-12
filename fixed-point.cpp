@@ -1,6 +1,10 @@
 
 #include "fixed-point.hpp"
 
+#include <iostream>
+#include <cstdio>
+#include <ranges>
+
 #define ERR(...) { \
     cerr << "ERROR: "; \
     cerr << "file `" << __FILE__ << "` "; \
@@ -20,7 +24,24 @@
     } \
 }
 
-////// uint64_t uint32_t
+////// uint64_t uint32_t bitwise operations
+
+bool ui32_check_first_bit(uint32_t num){
+
+    uint32_t zeroes = 0;
+    uint32_t ones = ~ zeroes;
+    uint32_t zero_followed_by_1s = ones >> 1;
+    uint32_t one_followed_by_0s = ~ zero_followed_by_1s;
+
+    if(num & one_followed_by_0s){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+
+////// uint64_t uint32_t mathematics
 
 pair<uint32_t, uint32_t> ui64_split(uint64_t num){
     uint32_t overflow = static_cast<uint32_t>( (num & 0xffffffff00000000) >> 32 );
@@ -145,15 +166,25 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value){
 }
 
 bool fp_check_first_bit(const fp_t & num){
-    uint32_t zeroes = 0;
-    uint32_t ones = ~ zeroes;
-    uint32_t zero_followed_by_1s = ones >> 1;
-    uint32_t one_followed_by_0s = ~ zero_followed_by_1s;
-    if(num.value.at(0) & one_followed_by_0s){
-        return true;
-    }else{
-        return false;
+    return ui32_check_first_bit(num.value.at(0));
+}
+
+void fp_left_shift_by_1(fp_t & num){
+
+    uint32_t prev_bit = 0;
+
+    for(uint32_t & part : ranges::reverse_view(num.value)){
+
+        bool first_bit = ui32_check_first_bit(part);
+
+        part <<= 1;
+
+        part |= prev_bit;
+
+        prev_bit = first_bit;
+
     }
+
 }
 
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){

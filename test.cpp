@@ -1,7 +1,8 @@
 
-#include <cstdint>
-
 #include "fixed-point.hpp"
+
+#include <cstdint>
+#include <iostream>
 
 int main(){
 
@@ -185,6 +186,26 @@ int main(){
         fp_print(a);
         cout << endl;
         cout << "first bit: " << fp_check_first_bit(a) << endl;
+    }
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.4);
+        cout << "a <<= 0 ; ";
+        fp_print(a);
+        cout << endl;
+        
+        fp_left_shift_by_1(a);
+        cout << "a <<= 1 ; ";
+        fp_print(a);
+        cout << endl;
+
+        fp_left_shift_by_1(a);
+        cout << "a <<= 1 ; ";
+        fp_print(a);
+        cout << endl;
+
     }
 
     return 0;

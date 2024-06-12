@@ -1,8 +1,6 @@
 
 #include <cstdint>
 #include <vector>
-#include <cstdio>
-#include <iostream>
 #include <array>
 
 using namespace std;
@@ -24,6 +22,8 @@ void fp_print(const fp_t & num);
 bool fp_set_bit(fp_t & num, size_t idx, bool value);
 
 bool fp_check_first_bit(const fp_t & num);
+
+void fp_left_shift_by_1(fp_t & num);
 
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1);
 
