@@ -224,10 +224,25 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
             auto [ovf, val] = ui32_mul(part0, part1);
 
             if(part_offset < FP_VALUE_LEN){
+
                 auto [ovf2, val2] = ui32_add( result.value.at(part_offset) , val );
-                ASSERT(ovf2 == 0); // TODO murzi me da go opravq
-                result.value.at(part_offset) = val2;
-                // cout << "DBG: settings offset " << part_offset << " to " << val2 << endl;
+
+                fp_t adder;
+
+                adder.value.at(part_offset) = val2;
+
+                if(ovf2){
+
+                    if(part_offset - 1 < 0){
+                        ERR("Value >= 1.0");
+                    }
+
+                    adder.value.at(part_offset-1) = ovf2;
+
+                }
+
+                result = fp_add_fp(result, adder);
+
             }
 
             if(ovf){
@@ -240,7 +255,6 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
                     auto [ovf2, val2] = ui32_add( result.value.at(part_offset - 1) , ovf );
                     ASSERT(ovf2 == 0); // TODO murzi me da go opravq
                     result.value.at(part_offset - 1) = val2;
-                    // cout << "DBG: settings offset-1= " << part_offset-1 << " to " << val2 << endl;
                 }
 
             }
