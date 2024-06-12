@@ -16,4 +16,8 @@ FLAGS_STRICT='-Werror -Wextra -Wall -pedantic -Wfatal-errors -Wshadow -Wconversi
 FLAGS_MISC='-Ofast'
 # can't have both `-static` and `-fsanitize=undefined`
 
-g++ $FLAGS_STANDARD $FLAGS_STRICT $FLAGS_MISC -c -o "$HERE/fixed-point.o" "$HERE/fixed-point.cpp"
+FLAGS="$FLAGS_STANDARD $FLAGS_STRICT $FLAGS_MISC"
+
+g++ $FLAGS "$HERE/fixed-point.cpp" -c -o "$HERE/fixed-point.o"
+
+g++ $FLAGS "$HERE/test.cpp" -o "$HERE/test" "$HERE/fixed-point.o"

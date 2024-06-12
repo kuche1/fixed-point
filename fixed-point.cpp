@@ -59,10 +59,8 @@ pair<uint32_t, uint32_t> ui32_div(uint32_t num0, uint32_t num1){
 
 ////// fixed point
 
-fp_t fp_create(const uint32_t initial_value){
-    return {
-        .value = {initial_value},
-    };
+fp_t fp_create(){
+    return {};
 }
 
 fp_t fp_create_from_double(double double_value){
@@ -146,13 +144,11 @@ fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){
 
     for(ssize_t i=FP_VALUE_LEN-1 ; i>=0 ; --i){
 
-        // cout << "YEEE " << "i:" << i << endl;
-
         uint32_t part0 = result.value.at(i);
         uint32_t part1 = to_add.value.at(i);
 
         auto [ovf0, val_step0] = ui32_add(part0, part1);
-        auto [ovf1, val_step1] = ui32_add(overflow, val_step0);
+        auto [ovf1, val_step1] = ui32_add(val_step0, overflow);
 
         result.value.at(i) = val_step1;
 
@@ -163,97 +159,37 @@ fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){
     }
 
     if(overflow != 0){
-        cerr << "ERROR: result of addition is >= 1.0" << endl;
-        exit(1);
+        ERR("result of addition is >= 1.0");
     }
 
     return result;
 }
 
-// fp_t fp_div_fp(const fp_t & num0, const fp_t & num1){
-//     ...
-// }
+fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1){
+    
+    fp_t result = num0;
 
-/////// tests
+    uint32_t underflow = 0;
 
-// int main(){
+    for(ssize_t i=FP_VALUE_LEN-1; i>=0; --i){
 
-//     {
-//         uint32_t a = 4294967295;
-//         uint32_t b = 4294967295;
-//         auto [c_ovf, c_val] = ui32_add(a, b);
-//         cout << "c_ovf:" << c_ovf << " c_val:" << c_val << endl;
-//     }
+        uint32_t part0 = num0.value.at(i);
+        uint32_t part1 = num1.value.at(i);
 
-//     {
-//         uint32_t a = 1;
-//         uint32_t b = 2;
-//         auto [c_udf, c_val] = ui32_sub(a, b);
-//         cout << "c_udf:" << c_udf << " c_val:" << c_val << endl;
-//     }
+        auto [und0, val_step0] = ui32_sub(part0, part1);
+        auto [und1, val_step1] = ui32_sub(val_step0, underflow);
 
-//     {
-//         uint32_t a = 4294967295;
-//         uint32_t b = 4294967295;
-//         auto [c_ovf, c_val] = ui32_mul(a, b);
-//         cout << "c_ovf:" << c_ovf << " c_val:" << c_val << endl;
-//     }
+        result.value.at(i) = val_step1;
 
-//     {
-//         fp_t a = fp_create(1);
+        auto [zero, underflow_new] = ui32_add(und0, und1);
+        ASSERT(zero == 0);
 
-//         cout << "a: ";
-//         fp_print(a);
-//         cout << endl;
+        underflow = underflow_new;
+    }
 
-//         fp_t b = fp_create(25);
+    if(underflow != 0){
+        ERR("result of subtraction is < 0");
+    }
 
-//         cout << "b: ";
-//         fp_print(b);
-//         cout << endl;
-
-//         fp_t c = fp_add_fp(a, b);
-
-//         cout << "c: ";
-//         fp_print(c);
-//         cout << endl;
-//     }
-
-//     // {
-//     //     fp_t a = fp_create(4294967295);
-
-//     //     cout << "a: ";
-//     //     fp_print(a);
-//     //     cout << endl;
-
-//     //     fp_t b = fp_create(4294967295);
-
-//     //     cout << "b: ";
-//     //     fp_print(b);
-//     //     cout << endl;
-
-//     //     fp_t c = fp_add_fp(a, b);
-
-//     //     cout << "c: ";
-//     //     fp_print(c);
-//     //     cout << endl;
-//     // }
-
-//     {
-//         cout << endl;
-//         uint32_t a = 5;
-//         uint32_t b = 3;
-//         auto [c_big, c_smo] = ui32_div(a, b);
-//         cout << "c_big:" << c_big << " c_smo:" << c_smo << endl;
-//     }
-
-//     {
-//         cout << endl;
-//         fp_t a = fp_create_from_double(0.5);
-//         cout << "a:";
-//         fp_print(a);
-//         cout << endl;
-//     }
-
-//     return 0;
-// }
+    return result;
+}
