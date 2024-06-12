@@ -65,6 +65,7 @@ fp_t fp_create(){
     return {};
 }
 
+// TODO i'm starting to think that this is also not very useful
 fp_t fp_create_arbitrary(size_t idx, uint32_t value){
     fp_t num;
     num.value.at(idx) = value;
