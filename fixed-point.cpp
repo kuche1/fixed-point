@@ -221,41 +221,29 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
             //     continue;
             // }
 
-            auto [ovf, val] = ui32_mul(part0, part1);
+            if(part_offset - 1 < FP_VALUE_LEN){
 
-            if(part_offset < FP_VALUE_LEN){
-
-                auto [ovf2, val2] = ui32_add( result.value.at(part_offset) , val );
+                auto [ovf, val] = ui32_mul(part0, part1);
 
                 fp_t adder;
 
-                adder.value.at(part_offset) = val2;
-
-                if(ovf2){
+                if(ovf != 0){
 
                     if(part_offset - 1 < 0){
                         ERR("Value >= 1.0");
                     }
 
-                    adder.value.at(part_offset-1) = ovf2;
+                    adder.value.at(part_offset-1) = ovf;
+
+                }
+
+                if(part_offset < FP_VALUE_LEN){
+
+                    adder.value.at(part_offset) = val;
 
                 }
 
                 result = fp_add_fp(result, adder);
-
-            }
-
-            if(ovf){
-
-                if(part_offset - 1 < 0){
-                    ERR("Value >= 1.0");
-                }
-
-                if(part_offset - 1 < FP_VALUE_LEN){
-                    auto [ovf2, val2] = ui32_add( result.value.at(part_offset - 1) , ovf );
-                    ASSERT(ovf2 == 0); // TODO murzi me da go opravq
-                    result.value.at(part_offset - 1) = val2;
-                }
 
             }
 
