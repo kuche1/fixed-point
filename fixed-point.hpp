@@ -5,9 +5,7 @@
 
 using namespace std;
 
-#ifndef FP_VALUE_LEN
 #define FP_VALUE_LEN 4
-#endif
 
 typedef struct{
     array<uint32_t, FP_VALUE_LEN> value = {0};
