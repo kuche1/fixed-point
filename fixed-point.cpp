@@ -134,7 +134,7 @@ fp_t fp_create_from_double(double double_value){
 void fp_print(const fp_t & num){
     cout << "[" << num.value.size() * sizeof(num.value[0]) << "B]0x";
     for(uint32_t piece : num.value){
-        printf("%08x", piece);
+        printf("[%08x]", piece);
     }
 }
 
@@ -187,6 +187,25 @@ void fp_left_shift_by_1(fp_t & num){
         part |= prev_bit;
 
         prev_bit = first_bit;
+
+    }
+
+}
+
+void fp_left_shift_by_8(fp_t & num){
+
+    uint32_t prev_byte = 0;
+
+    for(uint32_t & part : ranges::reverse_view(num.value)){
+
+        char first_byte = ui32_check_first_byte(part);
+
+        part <<= 8;
+
+        part |= static_cast<unsigned char>(prev_byte);
+        // if it's not for the unsigned cast, shit gets really bad
+
+        prev_byte = first_byte;
 
     }
 
@@ -340,4 +359,18 @@ bool fp_le_fp(const fp_t & num0, const fp_t & num1){
     }
 
     return true; // equal
+}
+
+bool fp_eq_fp(const fp_t & num0, const fp_t & num1){
+
+    for(size_t idx=0; idx<FP_VALUE_LEN; ++idx){
+        uint32_t part0 = num0.value.at(idx);
+        uint32_t part1 = num1.value.at(idx);
+        if(part0 != part1){
+            return false;
+        }
+    }
+
+    return true;
+
 }

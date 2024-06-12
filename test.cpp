@@ -211,6 +211,8 @@ int main(){
         }
     }
 
+    // test: fp_check_first_byte
+
     {
         fp_t a = fp_create_from_double(1.0);
         if(fp_check_first_byte(a) != static_cast<char>(0xffff)){
@@ -257,6 +259,32 @@ int main(){
         cout << "first byte: " << binary << endl;
 
         if(first_byte != static_cast<char>(0xc0)){
+            return 1;
+        }
+    }
+
+    // test: fp_left_shift_by_8
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.0001);
+        cout << "a <<= 0 : ";
+        fp_print(a);
+        cout << endl;
+
+        fp_left_shift_by_8(a);
+        cout << "a <<= 8 : ";
+        fp_print(a);
+        cout << endl;
+
+        // left shifting by 8 is equal to multiplying by 2**8
+        fp_t b = fp_create_from_double(0.0256);
+        cout << "b  =    : ";
+        fp_print(b);
+        cout << endl;
+
+        if(!fp_eq_fp(a, b)){
             return 1;
         }
     }

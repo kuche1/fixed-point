@@ -30,6 +30,8 @@ char fp_check_first_byte(const fp_t & num);
 
 void fp_left_shift_by_1(fp_t & num);
 
+void fp_left_shift_by_8(fp_t & num);
+
 // arithmetic operations
 
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1, fp_saturation_action_t saturation_action = FP_SATURATION_CRASH);
@@ -43,3 +45,5 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1);
 bool fp_lt_fp(const fp_t & num0, const fp_t & num1);
 
 bool fp_le_fp(const fp_t & num0, const fp_t & num1);
+
+bool fp_eq_fp(const fp_t & num0, const fp_t & num1);
