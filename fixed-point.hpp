@@ -23,6 +23,8 @@ void fp_print(const fp_t & num);
 
 bool fp_set_bit(fp_t & num, size_t idx, bool value);
 
+bool fp_check_first_bit(const fp_t & num);
+
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1);
 
 fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1);

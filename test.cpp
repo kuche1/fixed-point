@@ -177,5 +177,15 @@ int main(){
         cout << endl;
     }
 
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.4);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+        cout << "first bit: " << fp_check_first_bit(a) << endl;
+    }
+
     return 0;
 }

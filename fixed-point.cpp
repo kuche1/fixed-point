@@ -144,6 +144,18 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value){
 
 }
 
+bool fp_check_first_bit(const fp_t & num){
+    uint32_t zeroes = 0;
+    uint32_t ones = ~ zeroes;
+    uint32_t zero_followed_by_1s = ones >> 1;
+    uint32_t one_followed_by_0s = ~ zero_followed_by_1s;
+    if(num.value.at(0) & one_followed_by_0s){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1){
 
     fp_t result = num0;
