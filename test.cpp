@@ -117,5 +117,31 @@ int main(){
         cout << endl;
     }
 
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.5);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        fp_t b = fp_create_from_double(0.5);
+        cout << "b:";
+        fp_print(b);
+        cout << endl;
+
+        fp_t c = fp_mul_fp(a, b);
+        cout << "c = a * b = ";
+        fp_print(c);
+        cout << endl;
+
+        for(int i=0; i<3; ++i){
+            c = fp_mul_fp(c, b);
+        }
+        cout << "... ";
+        fp_print(c);
+        cout << endl;
+    }
+
     return 0;
 }

@@ -24,3 +24,5 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value);
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1);
 
 fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1);
+
+fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1);

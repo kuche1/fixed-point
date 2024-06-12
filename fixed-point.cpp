@@ -103,7 +103,7 @@ fp_t fp_create_from_double(double double_value){
 void fp_print(const fp_t & num){
     cout << "[" << num.value.size() * sizeof(num.value[0]) << "B]0x";
     for(uint32_t piece : num.value){
-        printf("%04x", piece);
+        printf("%08x", piece);
     }
 }
 
@@ -189,6 +189,56 @@ fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1){
 
     if(underflow != 0){
         ERR("result of subtraction is < 0");
+    }
+
+    return result;
+}
+
+fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
+
+    fp_t result = fp_create();
+
+    for(ssize_t part0_idx=FP_VALUE_LEN-1; part0_idx>=0; --part0_idx){
+        uint32_t part0 = num0.value.at(part0_idx);
+
+        for(ssize_t part1_idx=FP_VALUE_LEN-1; part1_idx>=0; --part1_idx){
+            uint32_t part1 = num1.value.at(part1_idx);
+
+            ssize_t part_offset = part0_idx + part1_idx + 1;
+            // TODO molq se tova da e pravilno
+            // za6toto me murzi da go razigraq na list hartiq
+
+            // if(part_offset - 1 >= FP_VALUE_LEN){
+            //     // no point, we don't support this accuracy
+            //     continue;
+            // }
+
+            auto [ovf, val] = ui32_mul(part0, part1);
+
+            if(part_offset < FP_VALUE_LEN){
+                auto [ovf2, val2] = ui32_add( result.value.at(part_offset) , val );
+                ASSERT(ovf2 == 0); // TODO murzi me da go opravq
+                result.value.at(part_offset) = val2;
+                cout << "DBG: settings offset " << part_offset << " to " << val2 << endl;
+            }
+
+            if(ovf){
+
+                if(part_offset - 1 < 0){
+                    ERR("Value >= 1.0");
+                }
+
+                if(part_offset - 1 < FP_VALUE_LEN){
+                    auto [ovf2, val2] = ui32_add( result.value.at(part_offset - 1) , ovf );
+                    ASSERT(ovf2 == 0); // TODO murzi me da go opravq
+                    result.value.at(part_offset - 1) = val2;
+                    cout << "DBG: settings offset-1= " << part_offset-1 << " to " << val2 << endl;
+                }
+
+            }
+
+        }
+
     }
 
     return result;
