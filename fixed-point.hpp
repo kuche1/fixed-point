@@ -26,6 +26,8 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value);
 
 bool fp_check_first_bit(const fp_t & num);
 
+char fp_check_first_byte(const fp_t & num);
+
 void fp_left_shift_by_1(fp_t & num);
 
 // arithmetic operations

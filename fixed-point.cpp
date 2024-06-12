@@ -41,6 +41,20 @@ bool ui32_check_first_bit(uint32_t num){
 
 }
 
+char ui32_check_first_byte(uint32_t num){
+
+    uint32_t zeroes = 0;
+    uint32_t ones = ~ zeroes;
+    uint32_t eight_0s_followed_by_1s = ones >> 8;
+    uint32_t eight_1s_followed_by_0s = ~ eight_0s_followed_by_1s;
+    uint32_t first_8bits_followed_by_0s = num & eight_1s_followed_by_0s;
+    uint32_t zeroes_followed_by_first_8bits = first_8bits_followed_by_0s >> ( (sizeof(num) - sizeof(char)) * 8);
+    char first_8bits = static_cast<char>(zeroes_followed_by_first_8bits);
+
+    return first_8bits;
+
+}
+
 ////// uint64_t uint32_t mathematics
 
 pair<uint32_t, uint32_t> ui64_split(uint64_t num){
@@ -154,6 +168,10 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value){
 
 bool fp_check_first_bit(const fp_t & num){
     return ui32_check_first_bit(num.value.at(0));
+}
+
+char fp_check_first_byte(const fp_t & num){
+    return ui32_check_first_byte(num.value.at(0));
 }
 
 void fp_left_shift_by_1(fp_t & num){

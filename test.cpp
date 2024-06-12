@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <bitset>
 
 int main(){
 
@@ -207,6 +208,56 @@ int main(){
             if( (~part) != 0){
                 return 1;
             }
+        }
+    }
+
+    {
+        fp_t a = fp_create_from_double(1.0);
+        if(fp_check_first_byte(a) != static_cast<char>(0xffff)){
+            return 1;
+        }
+    }
+
+    {
+        fp_t a = fp_create_from_double(0.0);
+        if(fp_check_first_byte(a) != static_cast<char>(0x0000)){
+            return 1;
+        }
+    }
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.5);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        char first_byte = fp_check_first_byte(a);
+
+        bitset<8> binary(first_byte);
+        cout << "first byte: " << binary << endl;
+
+        if(first_byte != static_cast<char>(0x80)){
+            return 1;
+        }
+    }
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.75);
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        char first_byte = fp_check_first_byte(a);
+
+        bitset<8> binary(first_byte);
+        cout << "first byte: " << binary << endl;
+
+        if(first_byte != static_cast<char>(0xc0)){
+            return 1;
         }
     }
 
