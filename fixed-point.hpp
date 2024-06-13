@@ -23,11 +23,13 @@ void fp_print(const fp_t & num);
 
 // bitwise operations
 
-bool fp_set_bit(fp_t & num, size_t idx, bool value);
-
 bool fp_check_first_bit(const fp_t & num);
 
 char fp_check_first_byte(const fp_t & num);
+
+bool fp_set_bit(fp_t & num, size_t idx, bool value);
+
+void fp_set_8_least_significant_bits(fp_t & num, unsigned char value);
 
 void fp_left_shift_by_1(fp_t & num);
 
@@ -53,3 +55,5 @@ bool fp_eq_fp(const fp_t & num0, const fp_t & num1);
 
 void fp_write_significant_to_file(fp_t num, ofstream & file);
 // writes data as long as it's not 0
+
+// void fp_gobble_as_much_as_possible_from_file(fp_t & num, ofstream & file);

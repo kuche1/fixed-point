@@ -354,5 +354,25 @@ int main(){
         }
     }
 
+    // testing: fp_set_8_least_significant_bits
+
+    {
+        cout << endl;
+
+        fp_t a;
+        cout << "a: ";
+        fp_print(a);
+        cout << endl;
+
+        fp_set_8_least_significant_bits(a, 0x69);
+        cout << "a: ";
+        fp_print(a);
+        cout << endl;
+
+        if(a.value.at(FP_VALUE_LEN-1) != 0x69){
+            return 1;
+        }
+    }
+
     return 0;
 }

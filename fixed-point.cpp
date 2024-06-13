@@ -1,4 +1,8 @@
 
+// TODO
+//
+// use `unsigned char` where appropriate, instead of `char`
+
 #include "fixed-point.hpp"
 
 #include <iostream>
@@ -138,6 +142,14 @@ void fp_print(const fp_t & num){
     }
 }
 
+bool fp_check_first_bit(const fp_t & num){
+    return ui32_check_first_bit(num.value.at(0));
+}
+
+char fp_check_first_byte(const fp_t & num){
+    return ui32_check_first_byte(num.value.at(0));
+}
+
 bool fp_set_bit(fp_t & num, size_t idx, bool value){
 
     size_t part_idx = 0;
@@ -166,12 +178,17 @@ bool fp_set_bit(fp_t & num, size_t idx, bool value){
 
 }
 
-bool fp_check_first_bit(const fp_t & num){
-    return ui32_check_first_bit(num.value.at(0));
-}
+void fp_set_8_least_significant_bits(fp_t & num, unsigned char value){
 
-char fp_check_first_byte(const fp_t & num){
-    return ui32_check_first_byte(num.value.at(0));
+    uint32_t eight_1s = 0xff;
+    uint32_t ones_then_eight_0s = ~ eight_1s;
+
+    num.value.at(FP_VALUE_LEN-1) &= ones_then_eight_0s;
+
+    uint32_t value_ui32 = value;
+    
+    num.value.at(FP_VALUE_LEN-1) |= value_ui32;
+
 }
 
 void fp_left_shift_by_1(fp_t & num){
@@ -389,3 +406,25 @@ void fp_write_significant_to_file(fp_t num, ofstream & file){
     }
 
 }
+
+// void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file){
+
+//     size_t needed = sizeof(num.value[0]) * num.value.size();
+
+//     while( (!file.eof()) && (needed > 0)){
+
+//         char byte;
+//         file.read(&byte, sizeof(byte));
+
+//         fp_left_shift_by_8(num);
+//         fp_set_8_least_significant_bits(num, byte);
+
+//         needed -= sizeof(byte);
+
+//     }
+
+//     if(needed > 0){
+//         fp_left_shift_by(num, needed * 8);
+//     }
+
+// }
