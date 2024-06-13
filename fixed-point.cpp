@@ -374,3 +374,18 @@ bool fp_eq_fp(const fp_t & num0, const fp_t & num1){
     return true;
 
 }
+
+void fp_write_significant_to_file(fp_t num, ofstream & file){
+
+    fp_t zero;
+
+    while(!fp_eq_fp(num, zero)){
+
+        char byte = fp_check_first_byte(num);
+        fp_left_shift_by_8(num);
+
+        file.write(&byte, sizeof(byte));
+
+    }
+
+}

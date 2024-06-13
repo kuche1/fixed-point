@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <array>
+#include <fstream>
 
 using namespace std;
 
@@ -47,3 +48,8 @@ bool fp_lt_fp(const fp_t & num0, const fp_t & num1);
 bool fp_le_fp(const fp_t & num0, const fp_t & num1);
 
 bool fp_eq_fp(const fp_t & num0, const fp_t & num1);
+
+// file dump
+
+void fp_write_significant_to_file(fp_t num, ofstream & file);
+// writes data as long as it's not 0

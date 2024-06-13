@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <iostream>
 #include <bitset>
+#include <sstream>
 
 int main(){
 
@@ -286,6 +287,70 @@ int main(){
 
         if(!fp_eq_fp(a, b)){
             return 1;
+        }
+    }
+
+    // test: fp_write_significant_to_file
+
+    {
+        {
+            ofstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            fp_t a = fp_create_from_double(0.5);
+            fp_write_significant_to_file(a, file);
+        }
+
+        {
+            ifstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            stringstream buffer;
+            buffer << file.rdbuf();
+
+            string data = buffer.str();
+
+            char expected[] = {static_cast<char>(0x80), 0};
+            if(data != expected){
+                return 1;
+            }
+        }
+    }
+
+    {
+        {
+            ofstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            fp_t a = fp_create_from_double(0.25);
+            fp_write_significant_to_file(a, file);
+        }
+
+        {
+            ifstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            stringstream buffer;
+            buffer << file.rdbuf();
+
+            string data = buffer.str();
+
+            char expected[] = {static_cast<char>(0x40), 0};
+            if(data != expected){
+                return 1;
+            }
         }
     }
 
