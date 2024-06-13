@@ -374,5 +374,31 @@ int main(){
         }
     }
 
+    // testing: fp_left_shift_by
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.000432432);
+        cout << "a: ";
+        fp_print(a);
+        cout << endl;
+
+        fp_t b = a;
+        fp_left_shift_by(b, 3);
+        cout << "b: ";
+        fp_print(b);
+        cout << endl;
+
+        fp_t c = fp_create_from_double(0.000432432 * 2 * 2 * 2);
+        cout << "c: ";
+        fp_print(c);
+        cout << endl;
+
+        if(!fp_eq_fp(b, c)){
+            return 1;
+        }
+    }
+
     return 0;
 }

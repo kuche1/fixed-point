@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdio>
 #include <ranges>
+#include <bitset>
 
 #define ERR(...) { \
     cerr << "ERROR: "; \
@@ -56,6 +57,18 @@ char ui32_check_first_byte(uint32_t num){
     char first_8bits = static_cast<char>(zeroes_followed_by_first_8bits);
 
     return first_8bits;
+
+}
+
+uint32_t ui32_check_first_bits(uint32_t num, unsigned int num_bits){
+
+    uint32_t zeroes = 0;
+    uint32_t ones = ~ zeroes;
+    uint32_t numbits_0s_followed_by_1s = ones >> num_bits;
+    uint32_t numbits_1s_followed_by_0s = ~ numbits_0s_followed_by_1s;
+    uint32_t numbits_bits_followed_by_0s = num & numbits_1s_followed_by_0s;
+    uint32_t bits = numbits_bits_followed_by_0s >> ( (sizeof(num)*8) - num_bits );
+    return bits;
 
 }
 
@@ -219,10 +232,28 @@ void fp_left_shift_by_8(fp_t & num){
 
         part <<= 8;
 
-        part |= static_cast<unsigned char>(prev_byte);
+        part |= static_cast<unsigned char>(prev_byte); // TODO it might just so happen that this works, but it's wrong, see `uint32_t prev_byte`
         // if it's not for the unsigned cast, shit gets really bad
 
         prev_byte = first_byte;
+
+    }
+
+}
+
+void fp_left_shift_by(fp_t & num, unsigned int value){
+
+    uint32_t prev = 0;
+
+    for(uint32_t & part : ranges::reverse_view(num.value)){
+
+        uint32_t first_bits = ui32_check_first_bits(part, value);
+
+        part <<= value;
+
+        part |= prev;
+
+        prev = first_bits;
 
     }
 

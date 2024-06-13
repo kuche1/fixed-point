@@ -35,6 +35,8 @@ void fp_left_shift_by_1(fp_t & num);
 
 void fp_left_shift_by_8(fp_t & num);
 
+void fp_left_shift_by(fp_t & num, unsigned int value);
+
 // arithmetic operations
 
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1, fp_saturation_action_t saturation_action = FP_SATURATION_CRASH);
