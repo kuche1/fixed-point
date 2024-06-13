@@ -35,7 +35,9 @@ void fp_left_shift_by_1(fp_t & num);
 
 void fp_left_shift_by_8(fp_t & num);
 
-void fp_left_shift_by(fp_t & num, unsigned int value);
+void fp_left_shift_by_up_to_31(fp_t & num, size_t value);
+
+void fp_left_shift_by(fp_t & num, size_t value);
 
 // arithmetic operations
 
@@ -58,4 +60,4 @@ bool fp_eq_fp(const fp_t & num0, const fp_t & num1);
 void fp_write_significant_to_file(fp_t num, ofstream & file);
 // writes data as long as it's not 0
 
-// void fp_gobble_as_much_as_possible_from_file(fp_t & num, ofstream & file);
+void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file);

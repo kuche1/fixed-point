@@ -374,7 +374,7 @@ int main(){
         }
     }
 
-    // testing: fp_left_shift_by
+    // testing: fp_left_shift_by_up_to_31
 
     {
         cout << endl;
@@ -385,7 +385,7 @@ int main(){
         cout << endl;
 
         fp_t b = a;
-        fp_left_shift_by(b, 3);
+        fp_left_shift_by_up_to_31(b, 3);
         cout << "b: ";
         fp_print(b);
         cout << endl;
@@ -396,6 +396,47 @@ int main(){
         cout << endl;
 
         if(!fp_eq_fp(b, c)){
+            return 1;
+        }
+    }
+
+    // testing: fp_gobble_as_much_as_possible_from_file
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.454325346354);
+        fp_t b;
+
+        {
+            ofstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+            
+            cout << "a: ";
+            fp_print(a);
+            cout << endl;
+
+            fp_write_significant_to_file(a, file);
+        }
+
+        {
+            ifstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            fp_gobble_as_much_as_possible_from_file(b, file);
+
+            cout << "b: ";
+            fp_print(b);
+            cout << endl;
+        }
+
+        if(!fp_eq_fp(a, b)){
             return 1;
         }
     }

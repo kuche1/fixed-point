@@ -9,7 +9,7 @@ clear
 FLAGS_STANDARD='-std=c++23'
 
 FLAGS_STRICT='-Werror -Wextra -Wall -pedantic -Wfatal-errors -Wshadow -Wconversion -fsanitize=undefined'
-# `-fsanitize=undefined` will detect undefined behaviour at runtime (example: overflow)
+# `-fsanitize=undefined` will detect undefined behaviour at runtime (example: overflow, left shift by >=32 for uint32_t)
 #    however, it doesn't seem like it's detecting multiplication overflow
 #    it doesn't seem to be able to detect underflow as well
 

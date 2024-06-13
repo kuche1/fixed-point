@@ -60,7 +60,7 @@ char ui32_check_first_byte(uint32_t num){
 
 }
 
-uint32_t ui32_check_first_bits(uint32_t num, unsigned int num_bits){
+uint32_t ui32_check_first_bits(uint32_t num, size_t num_bits){
 
     uint32_t zeroes = 0;
     uint32_t ones = ~ zeroes;
@@ -241,7 +241,9 @@ void fp_left_shift_by_8(fp_t & num){
 
 }
 
-void fp_left_shift_by(fp_t & num, unsigned int value){
+void fp_left_shift_by_up_to_31(fp_t & num, size_t value){
+
+    ASSERT(value <= 31);
 
     uint32_t prev = 0;
 
@@ -256,6 +258,17 @@ void fp_left_shift_by(fp_t & num, unsigned int value){
         prev = first_bits;
 
     }
+
+}
+
+void fp_left_shift_by(fp_t & num, size_t value){
+
+    while(value > 31){
+        fp_left_shift_by_up_to_31(num, 31);
+        value -= 31;
+    }
+
+    fp_left_shift_by_up_to_31(num, value);
 
 }
 
@@ -438,24 +451,29 @@ void fp_write_significant_to_file(fp_t num, ofstream & file){
 
 }
 
-// void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file){
+void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file){
 
-//     size_t needed = sizeof(num.value[0]) * num.value.size();
+    size_t needed = sizeof(num.value[0]) * num.value.size();
 
-//     while( (!file.eof()) && (needed > 0)){
+    while(needed > 0){
 
-//         char byte;
-//         file.read(&byte, sizeof(byte));
+        char byte;
+        file.read(&byte, sizeof(byte));
 
-//         fp_left_shift_by_8(num);
-//         fp_set_8_least_significant_bits(num, byte);
+        // the fucking `!file.eof()` is unreliable
+        if(file.gcount() <= 0){
+            break;
+        }
 
-//         needed -= sizeof(byte);
+        fp_left_shift_by_8(num);
+        fp_set_8_least_significant_bits(num, byte);
 
-//     }
+        needed -= sizeof(byte);
 
-//     if(needed > 0){
-//         fp_left_shift_by(num, needed * 8);
-//     }
+    }
 
-// }
+    if(needed > 0){
+        fp_left_shift_by(num, needed * 8);
+    }
+
+}
