@@ -441,5 +441,28 @@ int main(){
         }
     }
 
+    // testing: fp_raw_lt_ui32
+
+    {
+        cout << endl;
+
+        fp_t a;
+        a.value.at(FP_VALUE_LEN-1) = 12345;
+
+        if(!fp_raw_lt_ui32(a, 54321)){
+            return 1;
+        }
+
+        a.value.at(FP_VALUE_LEN-2) = 1;
+
+        cout << "a:";
+        fp_print(a);
+        cout << endl;
+
+        if(fp_raw_lt_ui32(a, 54321)){
+            return 1;
+        }
+    }
+
     return 0;
 }

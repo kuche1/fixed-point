@@ -111,6 +111,13 @@ pair<uint32_t, uint32_t> ui32_div(uint32_t num0, uint32_t num1){
 
 ////// fixed point
 
+void fp_print(const fp_t & num){
+    cout << "[" << num.value.size() * sizeof(num.value[0]) << "B]0x";
+    for(uint32_t piece : num.value){
+        printf("[%08x]", piece);
+    }
+}
+
 fp_t fp_create_from_double(double double_value){
 
     if(double_value < 0.0){
@@ -146,13 +153,6 @@ fp_t fp_create_from_double(double double_value){
     }
 
     return num;
-}
-
-void fp_print(const fp_t & num){
-    cout << "[" << num.value.size() * sizeof(num.value[0]) << "B]0x";
-    for(uint32_t piece : num.value){
-        printf("[%08x]", piece);
-    }
 }
 
 bool fp_check_first_bit(const fp_t & num){
@@ -390,6 +390,40 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
     }
 
     return result;
+}
+
+// fp_t fp_div_ui32(fp_t num0, const uint32_t num1){
+
+//     ASSERT(num1 > 0);
+
+//     fp_t result;
+
+//     while(true){
+
+//         if(fp_raw_lt_ui32(num0, num1)){
+//             break;
+//         }
+
+//         result += 1;
+
+//         num0 -= num1;
+
+//     }
+
+//     return result;
+
+// }
+
+bool fp_raw_lt_ui32(const fp_t & num0, const uint32_t num1){
+
+    for(size_t idx=0; idx<=FP_VALUE_LEN-1-1; ++idx){
+        if(num0.value.at(idx) > 0){
+            return false;
+        }
+    }
+
+    return num0.value.at(FP_VALUE_LEN-1) < num1;
+
 }
 
 bool fp_lt_fp(const fp_t & num0, const fp_t & num1){

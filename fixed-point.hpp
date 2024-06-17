@@ -17,9 +17,11 @@ typedef struct{
     array<uint32_t, FP_VALUE_LEN> value = {0};
 } fp_t;
 
-fp_t fp_create_from_double(double double_value);
-
 void fp_print(const fp_t & num);
+
+//  creation
+
+fp_t fp_create_from_double(double double_value);
 
 // bitwise operations
 
@@ -47,7 +49,15 @@ fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1);
 
 fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1);
 
-// comparisons
+fp_t fp_div_ui32(fp_t num0, const uint32_t num1);
+// this is giga slow
+// unless the compiler has done some magic
+
+// comparisons fp-raw ui32
+
+bool fp_raw_lt_ui32(const fp_t & num0, const uint32_t num1);
+
+// comparisons fp fp
 
 bool fp_lt_fp(const fp_t & num0, const fp_t & num1);
 
