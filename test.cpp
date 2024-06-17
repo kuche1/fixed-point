@@ -453,6 +453,7 @@ int main(){
             return 1;
         }
 
+        // this COULD crash
         a.value.at(FP_VALUE_LEN-2) = 1;
 
         cout << "a:";
@@ -460,6 +461,35 @@ int main(){
         cout << endl;
 
         if(fp_raw_lt_ui32(a, 54321)){
+            return 1;
+        }
+    }
+
+    // testing: fp_inc
+
+    {
+        cout << endl;
+
+        fp_t a;
+
+        fp_print(a);
+        cout << endl;
+
+        fp_raw_inc(a);
+
+        fp_print(a);
+        cout << endl;
+
+        if(a.value.at(FP_VALUE_LEN-1) != 1){
+            return 1;
+        }
+
+        fp_raw_inc(a);
+
+        fp_print(a);
+        cout << endl;
+
+        if(a.value.at(FP_VALUE_LEN-1) != 2){
             return 1;
         }
     }

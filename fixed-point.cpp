@@ -272,6 +272,27 @@ void fp_left_shift_by(fp_t & num, size_t value){
 
 }
 
+void fp_raw_inc(fp_t & num){
+
+    uint32_t overflow = 1;
+
+    for(ssize_t i=FP_VALUE_LEN-1 ; i>=0 ; --i){
+
+        uint32_t part = num.value.at(i);
+
+        // auto [ovf, val] = ui32_add(part, overflow);
+        tie(overflow, num.value.at(i)) = ui32_add(part, overflow);
+
+        // num.value.at(i) = val;
+
+        // overflow = ovf;
+    }
+
+    if(overflow != 0){
+        ERR("value >= 1.0");
+    }
+}
+
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1, fp_saturation_action_t saturation_action){
 
     fp_t result = num0;
