@@ -246,6 +246,32 @@ void fp_left_shift_by_8(fp_t & num){
 
 }
 
+void fp_left_shift_by_8_and_fill_with_1s(fp_t & num){
+
+    uint32_t prev_byte = 0;
+
+    bool first_loop = true;
+
+    for(uint32_t & part : ranges::reverse_view(num.value)){
+
+        char first_byte = ui32_check_first_byte(part);
+
+        part <<= 8;
+
+        if(first_loop){
+            first_loop = false;
+            part |= 0xff;
+        }
+
+        part |= static_cast<unsigned char>(prev_byte); // TODO it might just so happen that this works, but it's wrong, see `uint32_t prev_byte`
+        // if it's not for the unsigned cast, shit gets really bad
+
+        prev_byte = first_byte;
+
+    }
+
+}
+
 void fp_left_shift_by_up_to_31(fp_t & num, size_t value){
 
     ASSERT(value <= 31);

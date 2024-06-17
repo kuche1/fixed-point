@@ -36,6 +36,7 @@ void fp_set_8_least_significant_bits(fp_t & num, unsigned char value);
 void fp_left_shift_by_1(fp_t & num);
 
 void fp_left_shift_by_8(fp_t & num);
+void fp_left_shift_by_8_and_fill_with_1s(fp_t & num);
 
 void fp_left_shift_by_up_to_31(fp_t & num, size_t value);
 
