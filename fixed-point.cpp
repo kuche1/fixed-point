@@ -458,7 +458,6 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
 //     }
 
 //     return result;
-
 // }
 
 bool fp_raw_lt_ui32(const fp_t & num0, const uint32_t num1){

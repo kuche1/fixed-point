@@ -58,8 +58,7 @@ fp_t fp_sub_fp(const fp_t & num0, const fp_t & num1);
 fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1);
 
 // fp_t fp_div_ui32(fp_t num0, const uint32_t num1);
-// this is giga slow
-// unless the compiler has done some magic
+// this is so slow, I can't even test it
 
 // comparisons fp-raw ui32
 

@@ -510,5 +510,21 @@ int main(){
         cout << endl;
     }
 
+    // testing: fp_div_ui32
+
+    // {
+    //     cout << endl;
+
+    //     fp_t a = fp_create_from_double(0.45343543);
+
+    //     fp_print(a);
+    //     cout << endl;
+
+    //     fp_t b = fp_div_ui32(a, 2'000'000);
+
+    //     fp_print(b);
+    //     cout << endl;
+    // }
+
     return 0;
 }
