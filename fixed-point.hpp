@@ -45,6 +45,10 @@ void fp_left_shift_by(fp_t & num, size_t value);
 
 void fp_raw_inc(fp_t & num);
 
+// arithmeric operations fp-raw ui32
+
+void fp_raw_dec_ui32(fp_t & num0, uint32_t num1);
+
 // arithmetic operations fp fp
 
 fp_t fp_add_fp(const fp_t & num0, const fp_t & num1, fp_saturation_action_t saturation_action = FP_SATURATION_CRASH);

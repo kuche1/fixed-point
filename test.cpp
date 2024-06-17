@@ -494,5 +494,21 @@ int main(){
         }
     }
 
+    // testing: fp_raw_dec_ui32
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.234234);
+
+        fp_print(a);
+        cout << endl;
+
+        fp_raw_dec_ui32(a, 1);
+
+        fp_print(a);
+        cout << endl;
+    }
+
     return 0;
 }

@@ -87,6 +87,11 @@ pair<uint32_t, uint32_t> ui32_add(uint32_t num0, uint32_t num1){
 }
 
 pair<uint32_t, uint32_t> ui32_sub(uint32_t num0, uint32_t num1){
+    // uint64_t a = 0x100000000 + num0;
+    // a -= num1;
+    // auto [part0, part1] = ui64_split(a);
+    // return {!part0, part1};
+
     if(num1 > num0){
         return {1, num0 - num1};
     }else{
@@ -280,16 +285,37 @@ void fp_raw_inc(fp_t & num){
 
         uint32_t part = num.value.at(i);
 
-        // auto [ovf, val] = ui32_add(part, overflow);
         tie(overflow, num.value.at(i)) = ui32_add(part, overflow);
-
-        // num.value.at(i) = val;
-
-        // overflow = ovf;
     }
 
     if(overflow != 0){
         ERR("value >= 1.0");
+    }
+}
+
+void fp_raw_dec_ui32(fp_t & num0, uint32_t num1){
+
+    uint32_t underflow = 0;
+
+    for(ssize_t i=FP_VALUE_LEN-1; i>=0; --i){
+
+        uint32_t part = num0.value.at(i);
+
+        auto [und0, val_step0] = ui32_sub(part, num1);
+        auto [und1, val_step1] = ui32_sub(val_step0, underflow);
+
+        num0.value.at(i) = val_step1;
+
+        auto [zero, underflow_new] = ui32_add(und0, und1);
+        ASSERT(zero == 0);
+
+        underflow = underflow_new;
+
+        num1 = 0; // probably not the most optimal solution
+    }
+
+    if(underflow != 0){
+        ERR("result of subtraction is < 0");
     }
 }
 
@@ -425,9 +451,9 @@ fp_t fp_mul_fp(const fp_t & num0, const fp_t & num1){
 //             break;
 //         }
 
-//         result += 1;
+//         fp_raw_inc(result);
 
-//         num0 -= num1;
+//         fp_raw_dec_ui32(num0, num1);
 
 //     }
 
