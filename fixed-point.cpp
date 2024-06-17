@@ -516,6 +516,12 @@ bool fp_eq_fp(const fp_t & num0, const fp_t & num1){
 
 }
 
+bool fp_ge_fp(const fp_t & num0, const fp_t & num1){
+
+    return !fp_lt_fp(num0, num1);
+
+}
+
 void fp_write_significant_to_file(fp_t num, ofstream & file){
 
     fp_t zero;

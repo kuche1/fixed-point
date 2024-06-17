@@ -72,6 +72,8 @@ bool fp_le_fp(const fp_t & num0, const fp_t & num1);
 
 bool fp_eq_fp(const fp_t & num0, const fp_t & num1);
 
+bool fp_ge_fp(const fp_t & num0, const fp_t & num1);
+
 // file dump
 
 void fp_write_significant_to_file(fp_t num, ofstream & file);
