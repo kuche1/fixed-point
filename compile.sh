@@ -21,3 +21,5 @@ FLAGS="$FLAGS_STANDARD $FLAGS_STRICT $FLAGS_MISC"
 g++ $FLAGS "$HERE/fixed-point.cpp" -c -o "$HERE/fixed-point.o"
 
 g++ $FLAGS "$HERE/test.cpp" -o "$HERE/test" "$HERE/fixed-point.o"
+
+# "$HERE/test"

@@ -526,5 +526,44 @@ int main(){
     //     cout << endl;
     // }
 
+    // testing: fp_gobble_next_byte_from_file
+
+    {
+        cout << endl;
+
+        fp_t a = fp_create_from_double(0.23432432);
+
+        {
+            ofstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            fp_write_significant_to_file(a, file);
+        }
+
+        fp_print(a);
+        cout << endl;
+
+        {
+            ifstream file;
+            file.open("/tmp/fp-test", ios::binary);
+            if(!file.is_open()){
+                return 1;
+            }
+
+            fp_gobble_next_byte_from_file(a, file);
+            fp_gobble_next_byte_from_file(a, file);
+            fp_gobble_next_byte_from_file(a, file);
+            fp_gobble_next_byte_from_file(a, file);
+            fp_gobble_next_byte_from_file(a, file);
+        }
+
+        fp_print(a);
+        cout << endl;
+
+    }
+
     return 0;
 }

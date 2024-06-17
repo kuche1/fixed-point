@@ -80,3 +80,5 @@ void fp_write_significant_to_file(fp_t num, ofstream & file);
 // writes data as long as it's not 0
 
 void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file);
+
+bool fp_gobble_next_byte_from_file(fp_t & num, ifstream & file);

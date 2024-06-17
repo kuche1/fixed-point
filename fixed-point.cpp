@@ -563,3 +563,20 @@ void fp_gobble_as_much_as_possible_from_file(fp_t & num, ifstream & file){
     }
 
 }
+
+bool fp_gobble_next_byte_from_file(fp_t & num, ifstream & file){
+
+    fp_left_shift_by_8(num);
+
+    unsigned char ch;
+    file.read(reinterpret_cast<char *>(&ch), sizeof(ch));
+
+    if(file.gcount() <= 0){
+        return true;
+    }
+
+    uint32_t ch_as_ui32 = ch;
+    num.value.at(FP_VALUE_LEN-1) |= ch_as_ui32;
+
+    return false;
+}
